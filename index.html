@@ -42,7 +42,12 @@
         
         .affiliations {
             font-size: 16px;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .actions {
+            font-size: 16px;
+            margin-bottom: 2rem;
         }
         
         .abstract-heading {
@@ -90,6 +95,25 @@
             font-style: italic;
         }
 
+         .actions a {
+            color: black;
+            text-decoration: none;
+            border-bottom: 1px dotted #4D6BFE;
+            padding-bottom: 1px;
+            transition: border-color 0.2s;
+        }
+        
+        .actions a:hover {
+            border-bottom: 1px solid #15B38C;
+        }        .fancy-and {
+            font-family: 'Parisienne', cursive;
+            font-size: 24px;
+            display: inline-block;
+            margin: 0 8px;
+            color: #15B38C;
+            font-style: italic;
+        }
+
     </style>
 </head>
 <body>
@@ -105,6 +129,12 @@
         <i>Carnegie Mellon University</i>
     </div>
     
+    <div class="actions">
+        <a href="preprint.pdf">Read the paper</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/traces">View traces</a>
+    </div>
+
     <div class="abstract-heading">Abstract</div>
     <div class="abstract">
 Frontier models that generate extended reasoning traces inadvertently produce rich token sequences that can facilitate model distillation. Recognizing this vulnerability, model owners may seek sampling strategies that limit the effectiveness of distillation without compromising model performance. <i>Antidistillation sampling</i> provides exactly this capability. By strategically modifying a model's next-token probability distribution, antidistillation sampling poisons reasoning traces, rendering them significantly less effective for distillation while preserving the model's practical utility.
