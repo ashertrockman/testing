@@ -328,9 +328,9 @@
             document.getElementById('instructions-content').innerHTML = `<pre>${data.instructions}</pre>`;
             document.getElementById('problem-content').innerHTML = `<pre>${data.problem}</pre>`;
             document.getElementById('blue-meta').innerHTML = `<small>${gp[0]}</small>`;
-            document.getElementById('blue-content').textContent = data.greenContent;
+            document.getElementById('blue-content').textContent = '<think>'+data.greenContent;
             document.getElementById('teal-meta').innerHTML = `<small>${gp[1]}</small>`;
-            document.getElementById('green-content').textContent = data.blueContent;
+            document.getElementById('green-content').textContent = '<think>'+data.blueContent;
             
             // Update button states
             document.getElementById('prev-btn').disabled = currentPage === 0;
