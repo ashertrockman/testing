@@ -1,2 +1,580 @@
-<link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.png">
-:)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antidistillation preserves AI openness, originality, and safety.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8GYBV609E"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-G8GYBV609E');
+    </script>
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 24px;
+        }
+
+        #noise-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 420px;
+            z-index: 0;
+            pointer-events: none;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        body {
+            /*font-family: 'Hack', monospace;*/
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fff;
+            color: #000;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.25rem 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .accent-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4D6BFE, #15B38C);
+            margin-bottom: 2.5rem;
+            border-radius: 1px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.35;
+            letter-spacing: 0.01em;
+            margin-bottom: 0.4rem;
+            font-family: 'Hack', monospace;
+        }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 1rem;
+            font-family: 'Hack', monospace;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+            bottom: 0.15em;
+            width: 2px;
+            background: linear-gradient(180deg, #4D6BFE, #15B38C);
+            border-radius: 1px;
+        }
+
+        p, .byline, .date, .disclaimer, .tldr, .references, .references p,
+        .project-links, .contact, .references-label, blockquote {
+            font-size: 0.75rem;
+        }
+
+        .date {
+            color: #999;
+            margin-bottom: 1.75rem;
+        }
+
+        .byline {
+            margin-bottom: 0.35rem;
+            font-family: 'Hack', monospace;
+        }
+
+        .byline a {
+            color: rgb(57, 148, 192);;
+        }
+
+        .disclaimer {
+            color: #777;
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .tldr {
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .tldr span {
+            color: #999;
+            font-weight: 400;
+            font-family: 'Hack', monospace;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, #ddd 0%, #eee 50%, #ddd 100%);
+            margin: 2.5rem 0;
+        }
+
+        p {
+            margin-bottom: 1rem;
+     
+        }
+
+        a {
+            color: rgb(57, 148, 192);
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        a:hover {
+            color: #15B38C;
+        }
+
+        .section + .section {
+            margin-top: 2rem;
+        }
+
+        .gradient-text {
+            background: linear-gradient(0deg, #15B38C, #4D6BFE);
+            background-size: 50% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        blockquote {
+            border-left: 2px solid #ddd;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #333;
+            font-style: italic;
+        }
+
+        blockquote strong {
+            font-style: italic;
+        }
+
+        .footer {
+            margin-top: 1rem;
+        }
+
+        .references-label {
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.5rem;
+        }
+
+        .acknowledgments-label {
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+
+        }
+
+        .references {
+            color: #555;
+            margin-bottom: 2.5rem;
+        }
+
+        .references p {
+            margin-bottom: 0.35rem;
+            text-align: left;
+        }
+
+        .references a {
+            color: #555;
+            word-break: break-all;
+
+        }
+
+        .figure {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .figure .figure-border {
+            display: block;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 0.5rem;
+            border: none;
+        }
+
+        .figure .figure-border img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border: none;
+        }
+
+        .figure-caption {
+            font-size: 0.6rem;
+            color: #777;
+            text-align: left;
+            margin-bottom: 0;
+            max-width: 700px;
+            display: inline-block;
+        }
+
+        .project-links a {
+            display: block;
+            color: #555;
+            text-decoration: none;
+            margin-bottom: 2rem;
+            margin-top: 1.5rem;
+
+        }
+
+        .project-links a:hover {
+            color: #000;
+        }
+
+
+        h3 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+            font-family: 'Hack', monospace;
+            color: #333;
+            position: relative;
+            padding-left: 1rem;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.15em;
+            bottom: 0.15em;
+            width: 2px;
+            background: linear-gradient(90deg, #ddd 0%, #eee 50%, #ddd 100%);
+            border-radius: 1px;
+        }
+
+        .footnote {
+            font-size: 0.6rem;
+            color: #999;
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+
+        .contact {
+            color: #777;
+            margin-top: 1.5rem;
+        }
+
+        .contact a {
+            color: #555;
+        }
+
+        @media (max-width: 600px) {
+            html {
+                font-size: 20px;
+            }
+            .container {
+                padding: 2rem 1rem 4rem;
+            }
+
+            h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="noise-bg"></canvas>
+    <div class="container">
+
+        <div class="accent-line"></div>
+
+        <h1>Antidistillation preserves<br>AI openness, originality, and safety.</h1>
+        <p class="date">February 19, 2026 (Updated: Feb. 23)</p>
+
+        <p class="byline">Equal contribution by <a href="https://ashertrockman.com">Asher Trockman</a> and <a href="https://yashsavani.com">Yash Savani</a></p>
+         <p class="disclaimer" style="margin-bottom: 0.2rem; margin-top: 1rem; color: #000; font-style: normal;">Inquiries: <a href="mailto:authors@antidistillation.com">authors@antidistillation.com</a></p>
+
+        <p class="disclaimer">The authors write in their personal capacity. This post does not reflect the opinions of their employers.</p>
+
+
+        <hr>
+
+        <p class="tldr"><span>tl;dr&nbsp;&mdash;&nbsp;</span> Distillation attacks are making AI less safe, less original, and less open. The issue is deeper than just &ldquo;stealing IP&rdquo;. So, we proposed antidistillation to disincentivize large-scale distillation attacks.</p>
+
+        <div class="section">
+            <p>Very recently, <a href="https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0">OpenAI</a>, <a href="https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use">Google&rsquo;s Threat Intelligence Group</a>, and <a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic</a> released memos detailing a sharp rise in distillation attacks against their frontier models. As researchers working on antidistillation (<a href="https://arxiv.org/abs/2504.13146">Savani &amp; Trockman et al., 2025</a>; <a href="https://arxiv.org/abs/2602.03812">Xu et al., 2026</a>), we think these memos are directionally correct, but we also think the public conversation is missing the broader picture.</p>
+            <p>Briefly, distillation is when you use the outputs of one model to train another, and it has been widely used in deep learning for years. <em>Distillation attacks</em> are targeted campaigns to extract capabilities from APIs to compete on LLM R&amp;D and serving costs. In contrast to the prevailing opinion, we think these attacks target capabilities that are essentially created <em>ex nihilo</em> from private investments in R&amp;D and compute hours. But our main point is that distillation attacks are harmful to the AI ecosystem for the following reasons:</p>
+            <p class="intro-list"><a href="#monoculture">(1)</a> Distillation attacks lead to <em>AI monoculture</em>, where all models in the ecosystem inherit the tendencies, flaws, biases, and exploits of a handful of frontier models. This is a systemic security risk: one powerful prompt injection attack or jailbreak could affect thousands of downstream models at once. It also shifts the incentive structures for independent labs away from innovation and towards simply distilling frontier models to achieve similar capabilities.</p>
+            <p class="intro-list"><a href="#democratization">(2)</a> Contrary to popular belief, large-scale distillation attacks are actually making AI <em>less</em> open. They&rsquo;re creating a tragedy-of-the-commons scenario, forcing labs to increasingly censor and lock down their public APIs. This makes it harder to monitor these models for safety, authenticity, and faithfulness, and makes billing practices less transparent. Further, open-weight is not the same as open-source. Distillation via model APIs is an inherently closed-source, black-box step that makes it much harder to debug and identify the cause of errors in the final model. It doesn&rsquo;t effectively contribute to open science, where all parts of the pipeline are exposed, and where causal relations between model behavior and training stages can be investigated.</p>
+            <p class="intro-list"><a href="#safety">(3)</a> Distillation is inherently unsafe. It erodes the security and safety properties of student models. Both academic research and in-the-wild experiments indicate that this is a fundamental problem with current distillation paradigms that cannot be easily overcome with engineering effort. Finally, this is all especially dangerous given the recent rise of agentic AI that can interact with the open web and has access to sensitive personal data.</p>
+            <p>We expand on these points in the sections below, but we&rsquo;ll start with some background on the current landscape of distillation attacks and defenses. You should skip the first section if you&rsquo;re already familiar with these concepts.</p>
+        </div>
+
+        <div class="section">
+            <h2>Distillation... attacks?</h2>
+            <p><strong>Distillation</strong> is when someone trains a new model, which we call the <em>student</em>, to imitate the behavior of an existing, more capable model, called the <em>teacher</em>. Traditionally, this has been done with <em>full access</em> to both models (<a href="https://arxiv.org/abs/1503.02531">Hinton et al., 2015</a>)&mdash;for example, to compress a large model into a smaller, faster one for deployment. Distillation has been widely (and productively) used to create efficient models for edge devices, to specialize general-purpose models, and to make already capable AI faster and more accessible (<a href="https://arxiv.org/abs/2403.08295">Gemma Team, 2024</a>, <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf">Gemini Team, 2025</a>, <a href="https://openai.com/index/api-model-distillation/">GPT-4o Mini, 2024</a>).</p>
+            <p>More recently, distillation has also been performed using the APIs for popular language models like ChatGPT and Claude. In such cases, the distiller queries a teacher model&rsquo;s API at scale with a variety of prompts designed to extract the teacher&rsquo;s capabilities. The distiller then uses those text outputs as training data, without access to the teacher's weights or architecture.<sup>1</sup> This can be a lossy process: the student learns to approximate the teacher's outputs, but doesn't necessarily reproduce the full range of the teacher's capabilities or the internal representations that produce them.</p>
+
+            <div class="figure">
+                <div class="figure-border">
+                    <img src="/assets/figure.png" alt="Fig. 1: Antidistillation sampling effect on student model performance">
+                </div>
+                <p class="figure-caption">Fig. 1: Distilling student models with reasoning traces generated by a teacher model improves their performance on a target task, like math reasoning (GSM8K). But if the teacher&rsquo;s traces are generated via <em>antidistillation sampling</em> instead, the student&rsquo;s performance <em>decreases</em>. Teacher accuracy is better-spared by our newest iteration of the algorithm.</p>
+            </div>
+
+            <p>It may not be obvious at first, but the benefits of distillation can also be used for adversarial purposes. A <strong>distillation attack</strong> is a distillation campaign specifically designed to extract capabilities from a language model in order to compete on LLM R&amp;D and serving costs, undercutting the original provider with a cheaper imitation <em>built from their own outputs</em>. According to the <a href="https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0">OpenAI memo</a>, model outputs for distillation have been extracted using obfuscated third-party routers and programmatic methods to harvest model outputs at scale. <a href="https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use">Google's GTIG report</a> independently corroborates this, documenting over 100,000 prompts in a single reasoning-trace extraction campaign and noting that distillation techniques have evolved into multi-stage pipelines blending synthetic data generation, large-scale data cleaning, and reinforcement-learning-style preference optimization. <a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic&rsquo;s report</a> described even larger-scale attacks, with 1-10 million queries per campaign.</p>
+            <p><strong>Distillation defenses</strong> are algorithms designed to detect, prevent, or disincentivize distillation attacks. We call our line of work on distillation defenses <strong>antidistillation</strong>. Some of our methods make it harder for student models to learn from a teacher's outputs without affecting the experience for human users; others embed detectable signatures that survive the distillation process, making it possible to prove that distillation occurred.</p>
+            <p>While there are various reasons why one may want to prevent distillation attacks, the most commonly cited one is that they undermine the ability of labs to recover their R&amp;D investments. That is, they are a form of <em>intellectual property (IP) theft</em>. We agree that companies that spend billions in post-training deserve to capture value in return. But the partial loss of these investments is only one of the negative externalities of distillation attacks, and quite possibly not the most important one. We think the public conversation has focused too narrowly on IP theft, and it has already been covered extensively in other outlets, so we won&rsquo;t focus on it here.</p>
+            <p>Instead, we argue that the negative externalities of distillation attacks extend well beyond IP theft, affecting safety, transparency, innovation, and the general openness and richness of the AI ecosystem.</p>
+            <p class="footnote"><sup>1</sup> This is distinct from the classical definition of distillation, which involves training on the teacher's output probabilities. When we say "distillation" in this post, we mean training on a teacher model's text outputs, or &ldquo;hard&rdquo; distillation. That is, the method used in distillation attacks is basically a subset of finetuning.</p>
+        </div>
+
+        <div class="section" id="monoculture">
+            <h2>Distillation drives the AI ecosystem towards monoculture.</h2>
+            <p>If every new model is bootstrapped from the same handful of frontier teachers, the resulting student models converge on similar reasoning patterns and similar failure modes. You get thousands of slightly worse versions of the same thing. There have been documented cases of student models <a href="https://techcrunch.com/2024/12/27/why-deepseeks-new-ai-model-thinks-its-chatgpt/">identifying themselves as ChatGPT</a> when prompted, revealing the fingerprints of their teacher in ways their developers presumably didn't intend.</p>
+            <p>AI doesn't have to be a one-size-fits-all technology. A sovereign Indian AI model trained on Indian-language data, legal frameworks, and cultural norms could approach local Indian problems differently than a student model distilled from US frontier models. A model from a South Korean medical company trained on Korean medical literature could make different, and potentially better-targeted, clinical recommendations for Korean patients. These differences reflect real differences in values, knowledge, and needs across communities&mdash;and increased independent development of AI could lead to important new methodologies.<sup>1</sup></p>
+            <p>Distillation short-circuits this. Rather than doing the hard work of building models that reflect local contexts or even just different methodologies, labs can simply distill a frontier teacher and ship the student. The result is an AI ecosystem that increasingly looks like an echo chamber, with every model downstream of the same few large players. All flaws propagate downstream and proliferate unchecked: jailbreaks, biases, hallucinations, flawed reasoning. We would rather see a variety of models made from scratch with independent methodology, so that these failure modes are smoothed out on average across the whole ecosystem.</p>
+            <p>While distilled models may be further finetuned to specific use cases, the distilled &ldquo;core&rdquo; is still latent in the model, and biases or reasoning strategies from that stage of training could resurface any time&mdash;&ldquo;un-learning&rdquo; is a notable difficulty in the space of language models, with extensive literature that has not successfully remediated the problem (see, for example, <a href="https://arxiv.org/pdf/2410.16454">Zhang et al. 2025</a>; <a href="https://arxiv.org/pdf/2506.00688">Feng et al. 2025</a>).</p>
+
+            <h3>Monoculture is a security risk.</h3>
+            <p>The shift towards an AI monoculture is a systemic security risk<strong>.</strong> If the entire ecosystem is downstream of the same handful of teachers, a single jailbreak or safety failure could compromise the entire ecosystem in one blow. This could be especially critical given the recent rise of personal, agentic AI.</p>
+            <p>For an imperfect analogy of the risks of AI monoculture, consider the risks of software monoculture in cybersecurity more generally: When critical infrastructure all runs on the same codebase, a single vulnerability becomes a point of massive systemic failure (<a href="https://www.lawfaremedia.org/article/cyber-monoculture-risk">Rosenzweig, 2023</a>)&mdash;like the CrowdStrike outage in 2024. As frontier AI capabilities are increasingly seen as a matter of national security (<a href="https://situational-awareness.ai/">Aschenbrenner, 2024</a>), we should consider that concentrating the entire model ecosystem downstream of a small number of teachers could create the same flavor of fragility.</p>
+
+            <h3>Monoculture discourages innovation.</h3>
+            <p>By itself, distillation contributes little to the broader AI ecosystem in terms of new ideas, expert annotations, novel reward functions, or training methods. Our concern is that if distillation becomes the default path, the incentive to do original research erodes. Why invest in novel approaches to RL training, or experiment with new modeling paradigms and reward functions, or curate high-quality domain-specific data, when you can just query a frontier API and finetune on the outputs?<sup>2</sup></p>
+            <p>As a concrete example, the prevailing paradigm to scale test-time compute is to generate thinking traces before answering. This is exactly what most distillation attacks target, so all reasoning models end up scaling test-time compute in roughly the same way. Labs are incentivized to use thinking traces partially because this allows them to distill from frontier APIs to learn to think&mdash;and then all thinking traces converge on roughly the same sort of &ldquo;thinking template&rdquo;. Alternative approaches like variable depth or test-time training are relatively under-explored and remain far out of mainstream, and would have to be trained from scratch.</p>
+            <p>Open-source communities and small companies are at their best when they're moving fast, taking risks, and breaking barriers through innovative research. We want it to be cheaper to innovate competitively&mdash;<em>to try to create the best rather than to copy the best</em>. Right now, distillation tilts the balance in the wrong direction.</p>
+
+            <p class="footnote"><sup>1</sup> To be clear, most independent efforts still build on pretrained foundation models. The point is that there's a wide spectrum between "fine-tune a foundation model with local data" and "just distill a frontier API", and distillation pushes the ecosystem towards the latter.</p>
+            <p class="footnote"><sup>2</sup> Though we do agree that small open-weight reasoning models have enabled more researchers to study such models, and have even been shipped simultaneously with other separate, novel contributions.</p>
+        </div>
+
+        <div class="section" id="democratization">
+            <h2>Distillation doesn't always democratize AI, and it incentivizes labs to lock their doors.</h2>
+            <p>A common argument is that distillation democratizes AI&mdash;that it puts powerful capabilities in the hands of more people at lower cost. But increasingly, the opposite is happening: Distillation is triggering a tragedy-of-the-commons situation that is making AI less open for everyone.</p>
+            <p>We already see labs summarizing, paraphrasing, or even entirely redacting thinking traces from their model APIs. Both the OpenAI and Google memos describe extensive investments in preventing chain-of-thought extraction: training models not to reveal reasoning traces, deploying input/output classifiers to monitor for leakage, and suppressing internal reasoning before delivery to users.</p>
+            <p>Evidence (and our personal experience) suggests that these thinking traces are actually quite helpful for users. For a while, it was <a href="https://www.anthropic.com/research/reasoning-models-dont-say-think">conventional wisdom</a> that thinking traces function more as a mechanism to increase the effective test-time compute spent on the problem than as a window into the model&rsquo;s reasoning process. But recent research from <a href="https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/">METR</a> paints a substantially different picture: on tasks where models <em>actually need</em> thinking traces to answer correctly, they found evidence of &ldquo;unfaithfulness&rdquo; on <em>only</em> 3 out of 21,272 examples. And in <a href="https://metr.org/blog/2026-01-19-early-work-on-monitorability-evaluations">another article</a>, they investigate agents performing a main task while surreptitiously executing a &ldquo;side task&rdquo; (a proxy for sabotage), and attempt to detect this behavior with another model. They found that providing the detection model with the thinking traces increases detection of the surreptitious behavior from 30% to <strong>88%</strong>. And this improvement <strong>was substantially diminished if they used summarized thinking traces</strong>, which is exactly the paradigm that labs are shifting to in response to distillation attacks.</p>
+            <p>Thinking traces likely <em>are</em> a window into the &ldquo;cognitive behaviors&rdquo; of models, and they&rsquo;re <em>actively useful</em> for detecting unintended behaviors&mdash;if they&rsquo;re not summarized. When frontier labs suppress these traces to prevent distillation, they impose a cost on the users who need transparency to make informed decisions. And at the very least, the actual token counts of the original thinking traces matter for transparent billing practices...</p>
+            <p>Consider the following scenario: A small clinic in a low-resource setting that uses an AI model to support diagnostic decisions. The doctors may need to see the model's reasoning: the chain of evidence, the differential diagnoses considered and rejected, and the uncertainty estimates. Without that, they can't confidently act on the model's recommendation. A distilled student model may produce answers that look right but lack the underlying robustness that makes those answers trustworthy in high-stakes settings.</p>
+            <p>These student models often advertise capability benchmark scores, but may cut corners on safety, security, or factuality evaluations to retain their cost advantage. And in the case of using a frontier model, the reasoning that led to these decisions may simply be obscured as a consequence of defending against distillation attacks.</p>
+            <p>If distillation attacks become more prevalent, labs will be incentivized to lock down their APIs even further: more aggressive redaction of reasoning traces, stricter rate limits, and more rigid account verification and auditing with possibly-significant false positives. This is a tragedy-of-the-commons. Adversarial distillers exploit transparency, so providers reduce it, and everyone else bears the cost. We would like frontier LLM APIs to remain as open as possible.</p>
+
+            <h3>Student models may be open-weight, but they aren&rsquo;t open-source, nor open-science.</h3>
+            <p>Antidistillation has been framed by some as being in opposition to the open source community&mdash;that by defending against distillation, we are standing in the way of making AI more accessible, democratic, or open source. We disagree.</p>
+            <p>Open source is different from open weight. Open source means that the data provenance, data processing, algorithms, architecture, and training procedure are documented and reproducible for the wider community. This is what efforts like <a href="https://allenai.org/olmo">OLMo 3</a> and <a href="https://marin.community/blog/2025/05/19/announcement/">Marin</a> exemplify. They release the entire model flow: every stage, checkpoint, datapoint, and dependency required to create the model, enabling customization at any stage of development.<sup>1</sup></p>
+            <p>But distillation introduces a black box into the pipeline. The training signal comes from querying someone else's closed API, and you have no visibility into what shaped those responses. You don't know what data the teacher was trained on, how much compute was used, what alignment choices were made, or what biases were baked in. The training decisions are too opaque to even use in most scaling analyses. So even if you release everything else about your model, if you include a distillation step, the most important ingredient is invisible.</p>
+            <p>If something goes wrong&mdash;if the model hallucinates, produces harmful content, or makes a consequential error&mdash;it&rsquo;s impossible to trace the failure back to its root cause. Was it a property of the teacher's output? An artifact of the distillation pipeline? A gap in post-training alignment? What particular stage of post-training led to the regression? Unless the teacher model is 100% open source, these questions are unanswerable, and without answers, there is no path to systematic improvement. Distillation breaks the chain of accountability and provenance, making it harder to do good science on alignment and safety.</p>
+
+            <p class="footnote"><sup>1</sup> We want to acknowledge that open-weight models&mdash;including some that involve distillation&mdash;do provide real value. They're useful for fine-tuning, for academic research, and they've enabled a rich startup ecosystem. We're not dismissing that value.</p>
+        </div>
+
+        <div class="section" id="safety">
+            <h2>Distilled models carry safety debt.</h2>
+            <p>Frontier labs put enormous effort into making sure that their models are as trustworthy, reliable, and factual as possible. They do extensive RLHF, red-teaming, and ongoing safety patching. In contrast, student models are distilled to improve various non-safety capabilities. While one might assume that student models learn these safety properties &ldquo;subliminally&rdquo;, we&rsquo;re aware of no evidence supporting this intuition. In fact, research suggests that the process of distillation or finetuning actively <em>erodes</em> safety and security features (<a href="https://arxiv.org/abs/2310.03693">Qi et al., 2023</a>, <a href="https://arxiv.org/abs/2404.01099">He et al., 2024</a>, <a href="https://arxiv.org/abs/2310.02949">Yang et al. 2023</a>, <a href="https://arxiv.org/abs/2311.05553">Zhan et al., 2024</a>). This is likely an intrinsic property of distillation, regardless of the nature of the data used (<a href="https://www.arxiv.org/abs/2602.15799">Springer et al. 2026</a>). Further, the purpose of a distillation attack is to make models better as cheaply as possible. Taken together, the mechanisms and incentives behind distillation favor student models that are less safe and secure. <strong>Distillation rewards those who extract the economically useful capabilities without investing in the corresponding safety hardening.</strong><sup>1</sup></p>
+            <p>OpenAI's memo confirms that these aren&rsquo;t merely academic concerns: distilled models continue to &ldquo;lack meaningful guardrails in high-risk domains like chemistry and biology, and offer limited protections for copyrighted material&rdquo;, even when their developers have in some cases voluntarily signed AI safety commitments. <a href="https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf">NIST's CAISI evaluation</a> of DeepSeek models corroborates this, finding that DeepSeek's most secure model responded to &ldquo;94% of overtly malicious requests under a common jailbreaking technique, compared with just 8% for U.S. [frontier] reference models&rdquo;. <a href="https://www.techmonitor.ai/digital-economy/ai-and-automation/deepseek-jailbreak-offensive-responses?cf-view">Various</a> <a href="https://www.wired.com/story/deepseeks-ai-jailbreak-prompt-injection-attacks/">independent</a> security firms and <a href="https://www.alignmentforum.org/posts/zjqrSKZuRLnjAniyo/illusory-safety-redteaming-deepseek-r1-and-the-strongest">researchers</a> have also confirmed that distilled models are easier to jailbreak, and are even susceptible to simple <a href="https://www.hiddenlayer.com/research/deepsht-exposing-the-security-risks-of-deepseek-r1">2-year-old jailbreaks, like the infamous &ldquo;Do Anything Now&rdquo; prompt</a>. On a leaderboard of hallucination rates, <a href="https://halluhard.com/">distilled models get some of the worst scores</a>. When capabilities are copied without the corresponding safety governance, the result is cheaper-to-scale systems whose subtle safety deficiencies only surface after deployment, when failures are hardest to contain.</p>
+            <p>We want to highlight that once safety and security properties are eroded by distillation, the problem is unusually hard to remediate. The distiller lacks visibility into what exactly went wrong, because distillation packages the chain of training and design decisions of the teacher model into a black box. They can&rsquo;t hunt down and bisect the exact change in the training pipeline that caused the problem, as the training step that improved capabilities is interlocked with the step that degraded security.</p>
+
+            <h3>Safety and security matter more than ever, given the rise of AI agents.</h3>
+            <p>We should be clear that AI safety is no longer just about refusing to give instructions on building bombs. LLMs are increasingly used as <em>agents</em> with access to real systems; they can interact with data on the open web, turning jailbreaks and general misalignment into visceral security threats. Tools like <a href="https://openclaw.ai/">OpenClaw</a>, the open-source personal AI agent that has exploded in popularity in recent weeks, can manage email, access calendars, browse the web, execute shell commands, and interact with financial services. Security researchers have already flagged agents like these as a "<a href="https://www.paloaltonetworks.com/blog/network-security/why-moltbot-may-signal-ai-crisis/">lethal trifecta</a>" of risks: access to private data, exposure to untrustworthy content from the open internet, and the ability to perform external communications while retaining memory. From the NIST report mentioned earlier:</p>
+            <blockquote>
+                 &ldquo;The most robust DeepSeek model evaluated (R1-0528) was hijacked by malicious text and attempted to exfiltrate users&rsquo; login credentials in 37% of cases compared to an average of 4% for evaluated U.S. frontier models (GPT-5 and Opus 4)...&rdquo;
+            </blockquote>
+            <p>Of course, prompt injection and the risks of executing untrusted inputs are problems for all models, not just student models produced by distillation. But distilled student models likely carry more safety debt, and may be more vulnerable to targeted data exfiltration attacks and less likely to refuse malicious instructions. And we see that using these models can be tempting: OpenClaw allows users to select cheaper fallback models for when they run up against rate limits, and OpenRouter provides an &ldquo;<a href="https://openrouter.ai/docs/guides/routing/routers/auto-router">auto</a>&rdquo; endpoint that adaptively chooses to answer queries with both frontier models and their distilled counterparts. Users who deploy distilled student models as their agents, knowingly or not, may be exposing themselves to greater risk.</p>
+
+            <p class="footnote"><sup>1</sup> It's worth noting that distillation doesn't make a model inherently unsafe in every case. A lab could, in principle, invest heavily in post-distillation safety work. But the deeper concern is structural.</p>
+        </div>
+
+        <div class="section">
+            <h2>We don't want to ban distillation; we want to tilt the scales.</h2>
+            <p>It's important to draw a line between hobbyist or individual distillation and distillation attacks. An individual researcher or small team distilling a model for personal use, experimentation, or a hobby project is not what concerns us. Our methods are not meant to prevent distillation at this scale.</p>
+            <p>That is, what concerns us are <em>specifically</em> distillation attacks: organized campaigns to extract capabilities from teacher model APIs in order to compete on LLM R&amp;D serving costs, undercutting the original provider with an imitation built from their own outputs. These are the operations described in the OpenAI and Google memos, and these are what our tools are designed to address. And even at this scale, our methods don't yet fully prevent distillation&mdash;they only disincentivize it, or tilt the scales in favor of a different approach.</p>
+        </div>
+
+        <div class="section">
+            <h3>What <span class="gradient-text">antidistillation</span> is and isn't.</h3>
+            <p>A common argument we&rsquo;ve seen in favor of distillation attacks is that frontier labs trained their models on (possibly copyrighted) data from the public web, and therefore should consider the outputs of their models to also be public data. But we think this actually sidesteps the main issues we&rsquo;ve raised in this article. Essentially, we argue that the capabilities extracted by distillation attacks are created <em>ex nihilo</em> from investments in R&amp;D and GPU hours. Further, teacher models trained on open internet data are already widely accessible and, in many cases, fully open source. That data is straightforward to scrape&mdash;there's no reason to launch a distillation attack to get an edge from it. And even putting these issues aside, distillation attacks still result in monoculture, safety debt, and skew incentive structures around innovation.</p>
+            <p>The main issue driving these debates is that language models are increasingly viewed as <em>assets</em>, which are backed by the enormous cost of the GPU-hours that turn a base model into a world-class one and, and to a lesser extent, data generated or commissioned by AI labs themselves. The leap from a decent pretrained "base" model to today's frontier (teacher) models like o3 or Opus 4.6 didn't come from better web scraping. It came from massive, private investments in specialized training data, human feedback, chain-of-thought training, and other sophisticated post-training methods. Training a frontier model costs on the order of hundreds of millions of dollars. GPT-4 alone is estimated to have cost around $79 million in compute, with total R&amp;D costs reaching into the hundreds of millions (<a href="https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models">Epoch AI, 2025</a>; <a href="https://aiindex.stanford.edu/report/">Stanford AI Index, 2025</a>). Anthropic's CEO has stated that training the next generation of Claude would cost around a <a href="https://www.businessinsider.com/anthropic-ceo-cost-10-billion-train-ai-years-language-model-2024-4">billion dollars</a> (two years ago).</p>
+            <p>Whether labs are justified in using publicly scraped internet data to train their LLMs and then limiting access to their models is left as a question to the reader. But it&rsquo;s clear to us that the desire to protect investments in these LLMs, as well as the unexpected externalities of distillation attacks that we have discussed in this article, will affect the AI ecosystem more broadly. Consequently, we propose antidistillation as a middleground that allows companies to protect their AI assets while keeping them as open and transparent to the public as possible. <strong>And this protection isn't exclusive to big labs</strong>. Any entity, large or small, can deploy antidistillation to protect its own compute investments or specially-curated, domain-specific data. If you've spent months fine-tuning a model for medical diagnosis or legal reasoning, antidistillation helps to disincentivize a competitor from easily copying your work by querying your API. In the future, this could even include protecting the skills you have curated for your personal LLM agent, or fingerprinting your own content.</p>
+        </div>
+
+        <div class="section">
+            <h3>Tilting the scales with <span class="gradient-text">antidistillation</span>.</h3>
+            <p>We&rsquo;ve built a set of antidistillation tools that try to make independent model development more attractive than unauthorized distillation at scale&mdash;not by locking APIs down, but by increasing friction where it can make a difference. Along with our collaborators, we have been actively working on two complementary directions of <strong>distillation defense</strong> and <strong>detection</strong>.</p>
+            <p><strong>Antidistillation Sampling</strong> (<a href="https://arxiv.org/abs/2504.13146">Savani &amp; Trockman et al., 2025</a>, published at NeurIPS) is an active defense. It modifies the sampling process of a teacher model so that outputs remain high-quality for legitimate users but become significantly less useful as training data for student models. The level of protection can be tuned&mdash;we don't propose applying it to every model output, nor for every user. It&rsquo;s one tool in the toolbox, sitting between complete openness and a complete lockdown. We target specific capabilities, like math reasoning, with the goal of making the student model not worth shipping in a product due to its regression in a key capability.</p>
+            <p>The goal of antidistillation sampling is to use neural networks&rsquo; greatest weakness productively as a defense: susceptibility to adversarial examples. Similarly to how <em>human-imperceptible</em> changes to images can confound visual recognition models, we wanted to create human-imperceptible changes to text that can confound student language models (but not people). Think of it this way: you could write an article in a nearly infinite number of ways, which would all carry the same message to a human, but some of them might confuse a machine.</p>
+            <p>Our follow-up work on antidistillation fingerprinting gets closer to this goal of imperceptibility and is even less invasive from the user&rsquo;s perspective.</p>
+            <p><strong>Antidistillation Fingerprinting</strong> (<a href="https://arxiv.org/abs/2602.03812">Xu et al., 2026</a>) is a detection mechanism. It embeds a statistical signature into model outputs that survives the distillation process. Think of it as a radioactive tracer. If a lab distills your teacher model and ships the resulting student, the fingerprint is still there, providing evidence of provenance. This doesn't prevent distillation for small or individual AI contributors&mdash;it only disincentivizes productization of the resulting student model by making the distillation detectable. It's actually less invasive than existing watermarking techniques.</p>
+            <p>Together, these methods give model providers the ability to stay open while still protecting their investment, and additionally give users a way to verify whether the model they're using is an original or a copy. We have more work in progress across this space and welcome collaboration.</p>
+        </div>
+
+        <div class="section">
+            <h3>The path back to transparency.</h3>
+            <p>We believe antidistillation technology can help labs keep their APIs open and transparent by default, rather than locked down out of necessity. If done right, it shifts incentives away from copying and towards genuine research investment&mdash;which is better for safety, better for the richness of the AI ecosystem, and better for the users who depend on these tools.</p>
+            <p>We don't have all the answers. Our arguments could have footnotes within footnotes, but we have tried to present our perspective as succinctly as possible (after reading the article again, we see this is pretty funny). Antidistillation isn't an unbreakable diamond shield. But it doesn't have to be unbreakable to make a difference. We just have to tilt the balance in favor of a more transparent, safe, and innovative AI ecosystem.</p>
+            <p>This is an evolving conversation. If you're thinking about these problems, whether in industry, government, or academia, we'd love to hear your perspective. You can reach us at <a href="mailto:authors@antidistillation.com">authors@antidistillation.com</a>.</p>
+        </div>
+
+           <div class="project-links">
+                <a href="https://antidistillation.com">← Go to <span class="gradient-text">antidistillation sampling</span> project site</a>
+                <!-- <a href="https://antidistillation.com/fingerprinting">Go to <span class="gradient-text">antidistillation fingerprinting</span> project site →</a> -->
+            </div>
+
+        <div class="section">
+            <p class="acknowledgments-label">Acknowledgments</p>
+            <p>We appreciate feedback on initial drafts of this article from Nicholas Roberts, David Gray Widder, Praneeth Kacham, Lucio Dery, Rijnard van Tonder, Jaume de Dios Pont, Sadhika Malladi, Alexander Robey, Zico Kolter, Bogdan Vasilescu, Ethan Willoner, Yixuan Xu, Josh Sand, and Swaminathan Gurumurthy. This article should not be construed to represent their own views, nor those of their institutions. Any errors are solely those of the authors.</p>
+        </div>
+
+        <hr>
+
+        <div class="footer">
+            <p class="references-label">References</p>
+            <div class="references">
+     <p>"Updated Stakes for American-Led, Democratic AI." OpenAI. February 12, 2026. <a href="https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0">https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0</a></p>
+
+<p>"GTIG AI Threat Tracker: Distillation, Experimentation, and (Continued) Integration of AI for Adversarial Use." Google Threat Intelligence Group. February 12, 2026. <a href="https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use">https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use</a></p>
+
+ <p>"Detecting and preventing distillation attacks." Anthropic. February 23, 2026. <a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks</a></p>
+
+<p>"Antidistillation Sampling." Yash Savani, Asher Trockman, Zhili Feng, Yixuan Even Xu, Avi Schwarzschild, Alexander Robey, Marc Finzi, J. Zico Kolter. April 17, 2025. <a href="https://arxiv.org/abs/2504.13146">https://arxiv.org/abs/2504.13146</a></p>
+
+<p>"Antidistillation Fingerprinting." Yixuan Even Xu, John Kirchenbauer, Yash Savani, Asher Trockman, Alexander Robey, Tom Goldstein, Fei Fang, J. Zico Kolter. February 3, 2026. <a href="https://arxiv.org/abs/2602.03812">https://arxiv.org/abs/2602.03812</a></p>
+
+
+
+<p>"Distilling the Knowledge in a Neural Network." Geoffrey Hinton, Oriol Vinyals, Jeff Dean. March 9, 2015. <a href="https://arxiv.org/abs/1503.02531">https://arxiv.org/abs/1503.02531</a></p>
+
+
+<p>"Gemma: Open Models Based on Gemini Research and Technology." Gemma Team, Google. March 13, 2024. <a href="https://arxiv.org/abs/2403.08295">https://arxiv.org/abs/2403.08295</a></p>
+
+
+<p>"Gemini 2.5: Pushing the Frontier with Advanced Reasoning, Multimodality, Long Context, and Next Generation Agentic Capabilities." Gemini Team, Google. 2025. <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf">https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf</a></p>
+
+
+<p>"Model Distillation in the API." OpenAI. October 1, 2024. <a href="https://openai.com/index/api-model-distillation/">https://openai.com/index/api-model-distillation/</a></p>
+
+
+
+<p>"Why DeepSeek’s new AI model thinks it’s ChatGPT." Kyle Wiggers. December 27, 2024. <a href="https://techcrunch.com/2024/12/27/why-deepseeks-new-ai-model-thinks-its-chatgpt/">https://techcrunch.com/2024/12/27/why-deepseeks-new-ai-model-thinks-its-chatgpt/</a></p>
+
+<p>"Catastrophic Failure of LLM Unlearning via Quantization." Zhiwei Zhang, Fali Wang, Xiaomin Li, Zongyu Wu, Xianfeng Tang, Hui Liu, Qi He, Wenpeng Yin, Suhang Wang. October 21, 2024. <a href="https://arxiv.org/abs/2410.16454">https://arxiv.org/abs/2410.16454</a></p>
+
+<p>"Existing Large Language Model Unlearning Evaluations Are Inconclusive." Zhili Feng, Yixuan Even Xu, Alexander Robey, Robert Kirk, Xander Davies, Yarin Gal, Avi Schwarzschild, J. Zico Kolter. May 31, 2025. <a href="https://arxiv.org/abs/2506.00688">https://arxiv.org/abs/2506.00688</a></p>
+
+<p>"The Cyber Monoculture Risk." Paul Rosenzweig. October 1, 2021. <a href="https://www.lawfaremedia.org/article/cyber-monoculture-risk">https://www.lawfaremedia.org/article/cyber-monoculture-risk</a></p>
+
+<p>"Situational Awareness." Leopold Aschenbrenner. June 2024. <a href="https://situational-awareness.ai/">https://situational-awareness.ai/</a></p>
+
+
+
+<p>"Reasoning models don't always say what they think." Anthropic Alignment Science Team. April 3, 2025. <a href="https://www.anthropic.com/research/reasoning-models-dont-say-think">https://www.anthropic.com/research/reasoning-models-dont-say-think</a></p>
+
+<p>"CoT May Be Highly Informative Despite 'Unfaithfulness'." METR. August 8, 2025. <a href="https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/">https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/</a></p>
+
+<p>"Early work on monitorability evaluations." Megan Kinniment, Seraphina Nix, Thomas Broadley, and Neev Parikh. January 22, 2026. <a href="https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/">https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/</a></p>
+
+<p>"Olmo: Our fully open language model and complete model flow." AllenAI. N/A. <a href="https://allenai.org/olmo">https://allenai.org/olmo</a></p>
+
+<p>"Introducing Marin: An Open Lab for Building Foundation Models." 
+David Hall, Ahmed Ahmed, Christopher Chou, Abhinav Garg, Rohith Kuditipudi, Will Held, Nikil Ravi, Herumb Shandilya, Jason Wang
+Jason Bolton, Siddharth Karamcheti, Suhas Kotha, Tony Lee, Nelson Liu, Joel Niklaus, Ashwin Ramaswami, Kamyar Salahi, Kaiyue Wen, Chi Heem Wong, Sherry Yang, Ivan Zhou, and Percy Liang. May 19, 2025. <a href="https://marin.community/blog/2025/05/19/announcement/">https://marin.community/blog/2025/05/19/announcement/</a></p>
+
+<p>"Fine-tuning Aligned Language Models Compromises Safety, Even When Users Do Not Intend To!" Xiangyu Qi, Yi Zeng, Tinghao Xie, Pin-Yu Chen, Ruoxi Jia, Prateek Mittal, Peter Henderson. October 5, 2023. <a href="https://arxiv.org/abs/2310.03693">https://arxiv.org/abs/2310.03693</a></p>
+
+<p>"What is in Your Safe Data? Identifying Benign Data that Breaks Safety." Luxi He, Mengzhou Xia, Peter Henderson. April 1, 2024. <a href="https://arxiv.org/abs/2404.01099">https://arxiv.org/abs/2404.01099</a></p>
+
+<p>"Shadow Alignment: The Ease of Subverting Safely-Aligned Language Models." Xianjun Yang, Xiao Wang, Qi Zhang, Linda Petzold, William Yang Wang, Xun Zhao, Dahua Lin. October 4, 2023. <a href="https://arxiv.org/abs/2310.02949">https://arxiv.org/abs/2310.02949</a></p>
+
+<p>"Removing RLHF Protections in GPT-4 via Fine-Tuning." Qiusi Zhan, Richard Fang, Rohan Bindu, Akul Gupta, Tatsunori Hashimoto, Daniel Kang. November 9, 2023. <a href="https://arxiv.org/abs/2311.05553">https://arxiv.org/abs/2311.05553</a></p>
+
+<p>"The Geometry of Alignment Collapse: When Fine-Tuning Breaks Safety." Max Springer, Chung Peng Lee, Blossom Metevier, Jane Castleman, Bohdan Turbal, Hayoung Jung, Zeyu Shen, Aleksandra Korolova. February 17, 2026. <a href="https://www.arxiv.org/abs/2602.15799">https://www.arxiv.org/abs/2602.15799</a></p>
+
+<p>"HalluHard: A Hard Multi-Turn Hallucination Benchmark." Dongyang Fan, Sebastien Delsad, Nicolas Flammarion, Maksym Andriushchenko. February 1, 2026. <a href="https://halluhard.com/">https://halluhard.com/</a></p>
+
+<p>"Evaluation of DeepSeek AI Models." Center for AI Standards and Innovation - NIST. September 30, 2025. <a href="https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf">https://www.nist.gov/system/files/documents/2025/09/30/CAISI_Evaluation_of_DeepSeek_AI_Models.pdf</a></p>
+
+<p>"AI security tests find DeepSeek’s R1 more susceptible to jailbreaks than rivals." Swagath Bandhakavi. February 10, 2025. <a href="https://www.techmonitor.ai/digital-economy/ai-and-automation/deepseek-jailbreak-offensive-responses?cf-view">https://www.techmonitor.ai/digital-economy/ai-and-automation/deepseek-jailbreak-offensive-responses?cf-view</a></p>
+
+<p>"DeepSeek’s Safety Guardrails Failed Every Test Researchers Threw at Its AI Chatbot." Matt Burgess, Lily Hay Newman. January 31, 2025. <a href="https://www.wired.com/story/deepseeks-ai-jailbreak-prompt-injection-attacks/">https://www.wired.com/story/deepseeks-ai-jailbreak-prompt-injection-attacks/</a></p>
+
+<p>"DeepSh*t: Exposing the Security Risks of DeepSeek-R1." Jason Martin, Kevin Stangl, Kenneth Yeung, Megan David, Ryan Tracey, Kieran Evans, Tom Bonner, Travis Smith, Jack Parker. January 30, 2025. <a href="https://www.hiddenlayer.com/research/deepsht-exposing-the-security-risks-of-deepseek-r1">https://www.hiddenlayer.com/research/deepsht-exposing-the-security-risks-of-deepseek-r1</a></p>
+
+<p>"OpenClaw." Peter Steinberger. January 29, 2026. <a href="https://openclaw.ai/blog/introducing-openclaw">https://openclaw.ai/blog/introducing-openclaw</a></p>
+
+<p>"OpenClaw (formerly Moltbot, Clawdbot) May Signal the Next AI Security Crisis." Saileh Mishra and Sean P. Morgan. January 29, 2026. <a href="https://www.paloaltonetworks.com/blog/network-security/why-moltbot-may-signal-ai-crisis/">https://www.paloaltonetworks.com/blog/network-security/why-moltbot-may-signal-ai-crisis/</a></p>
+
+<p>"Auto Router." OpenRouter. N/A. <a href="https://openrouter.ai/docs/guides/routing/routers/auto-router">https://openrouter.ai/docs/guides/routing/routers/auto-router</a></p>
+
+<p>"How much does it cost to train frontier AI models?" Epoch AI - Ben Cottier, Robi Rahman, Loredana Fattorini, Nestor Maslej, David Owen. June 3, 2024. <a href="https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models">https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models</a></p>
+
+<p>"Stanford AI Index Report." Stanford University HAI. 2025. <a href="https://hai.stanford.edu/assets/files/hai_ai_index_report_2025.pdf">https://hai.stanford.edu/assets/files/hai_ai_index_report_2025.pdf</a></p>
+
+<p>"CEO of Anthropic — the AI company Amazon is betting billions on — says it could cost $10 billion to train AI in 2 years." Erin Snodgrass. April 30, 2024. <a href="https://www.businessinsider.com/anthropic-ceo-cost-10-billion-train-ai-years-language-model-2024-4">https://www.businessinsider.com/anthropic-ceo-cost-10-billion-train-ai-years-language-model-2024-4</a></p>
+            </div>
+
+ 
+        </div>
+    </div>
+
+ <script>
+        function generateNoise() {
+            const canvas = document.getElementById('noise-bg');
+            const ctx = canvas.getContext('2d');
+
+            const w = window.innerWidth;
+            const h = 420;
+            const grain = 3;
+
+            canvas.width = Math.ceil(w / grain);
+            canvas.height = Math.ceil(h / grain);
+            canvas.style.height = h + 'px';
+            canvas.style.imageRendering = 'pixelated';
+
+            const imageData = ctx.createImageData(canvas.width, canvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const v = Math.floor(200 + Math.random() * 55);
+                data[i] = v;
+                data[i + 1] = v;
+                data[i + 2] = v;
+                data[i + 3] = 255;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        generateNoise();
+        setInterval(generateNoise, 50);
+        window.addEventListener('resize', generateNoise);
+    </script>
+</body>
+</html>
