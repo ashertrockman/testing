@@ -40,6 +40,13 @@
             mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
         }
+        .gradient-text {
+            background: linear-gradient(0deg, #15B38C, #4D6BFE);
+            background-size: 50% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
         
         .accent-line {
             width: 100%;
@@ -210,7 +217,7 @@
     </div>
     
     <div class="actions">
-		<strong>New:</strong> <a href="https://antidistillation.com/blog/unexpected-externalities-of-distillation/">Some unexpected negative externalities of distillation attacks</a>
+		<strong><span class="gradient-text">New:</span> <a href="https://antidistillation.com/blog/unexpected-externalities-of-distillation/">Some unexpected negative externalities of distillation attacks</a></strong>
 	</div>
     <div class="actions">
         <div class="bb"><a href="/traces">View traces</a></div>
