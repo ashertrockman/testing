@@ -16,11 +16,12 @@
     <title>Antidistillation Sampling</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hack-font/3.3.0/web/hack.min.css">
     <style>
-        body {
+        #container {
             font-family: 'Hack', monospace;
             line-height: 1.6;
             max-width: 700px;
             margin: 0 auto;
+			margin-top: -30px;
             position: absolute;
             left: 0;
             right: 0;
@@ -28,7 +29,25 @@
             padding: 2rem;
             text-align: center;
         }
+        #noise-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 420px;
+            z-index: 0;
+            pointer-events: none;
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%);
+        }
         
+        .accent-line {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #4D6BFE, #15B38C);
+            margin-bottom: 2.5rem;
+            border-radius: 1px;
+        }
         @media (max-width: 480px) {
             body {
                 top: 1%;
@@ -175,6 +194,9 @@
     </style>
 </head>
 <body>
+    <canvas id="noise-bg"></canvas>
+	<div id="container">
+        <div class="accent-line"></div>
     <div class="paper-title">
         Antidistillation Sampling
     </div>
@@ -203,5 +225,38 @@ Frontier models that generate extended reasoning traces inadvertently produce ri
     <div class="eq">
         📉 <i>Denotes equal contribution</i>
     </div>
+	</div>
+ <script>
+        function generateNoise() {
+            const canvas = document.getElementById('noise-bg');
+            const ctx = canvas.getContext('2d');
+
+            const w = window.innerWidth;
+            const h = 420;
+            const grain = 3;
+
+            canvas.width = Math.ceil(w / grain);
+            canvas.height = Math.ceil(h / grain);
+            canvas.style.height = h + 'px';
+            canvas.style.imageRendering = 'pixelated';
+
+            const imageData = ctx.createImageData(canvas.width, canvas.height);
+            const data = imageData.data;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const v = Math.floor(200 + Math.random() * 55);
+                data[i] = v;
+                data[i + 1] = v;
+                data[i + 2] = v;
+                data[i + 3] = 255;
+            }
+
+            ctx.putImageData(imageData, 0, 0);
+        }
+
+        generateNoise();
+        setInterval(generateNoise, 50);
+        window.addEventListener('resize', generateNoise);
+    </script>
 </body>
 </html>
