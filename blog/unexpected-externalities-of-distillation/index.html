@@ -2,16 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.png">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antidistillation preserves AI openness, originality, and safety.</title>
-	<meta property="og:title" content="Antidistillation preserves AI openness, originality, and safety." />
+    <meta name="description" content="Distillation attacks are making AI less safe, less original, and less open. Why the negative externalities go deeper than IP theft—and how antidistillation sampling and fingerprinting tilt the scales." />
+    <meta name="author" content="Asher Trockman, Yash Savani" />
+    <link rel="canonical" href="https://antidistillation.com/blog/unexpected-externalities-of-distillation/" />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Antidistillation" />
+    <meta property="og:title" content="Antidistillation preserves AI openness, originality, and safety." />
+    <meta property="og:description" content="Distillation attacks are making AI less safe, less original, and less open. The issue is deeper than just stealing IP—so we proposed antidistillation to disincentivize large-scale distillation attacks." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://antidistillation.com/blog/unexpected-externalities-of-distillation/" />
-    <meta property="og:image" content="https://antidistillation.com/assets/meta3.png" />
-    <meta property="twitter:image" content="https://antidistillation.com/assets/meta3.png" />
+    <meta property="og:image" content="https://antidistillation.com/assets/meta3.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+    <meta property="og:image:alt" content="Antidistillation: Distillation attacks are making AI less safe, less original, and less open." />
+    <meta property="article:published_time" content="2026-02-19" />
+    <meta property="article:modified_time" content="2026-02-23" />
+    <meta property="article:author" content="https://ashertrockman.com" />
+    <meta property="article:author" content="https://yashsavani.com" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Antidistillation preserves AI openness, originality, and safety." />
+    <meta name="twitter:description" content="Distillation attacks are making AI less safe, less original, and less open. The issue is deeper than just stealing IP." />
+    <meta name="twitter:image" content="https://antidistillation.com/assets/meta3.jpg" />
+    <meta name="twitter:image:alt" content="Antidistillation: Distillation attacks are making AI less safe, less original, and less open." />
+
+    <!-- Google Scholar (Highwire Press & Dublin Core) -->
+    <meta name="citation_title" content="Antidistillation preserves AI openness, originality, and safety" />
+    <meta name="citation_author" content="Trockman, Asher" />
+    <meta name="citation_author" content="Savani, Yash" />
+    <meta name="citation_publication_date" content="2026/02/19" />
+    <meta name="citation_online_date" content="2026/02/19" />
+    <meta name="citation_public_url" content="https://antidistillation.com/blog/unexpected-externalities-of-distillation/" />
+    <meta name="DC.title" content="Antidistillation preserves AI openness, originality, and safety" />
+    <meta name="DC.creator" content="Trockman, Asher" />
+    <meta name="DC.creator" content="Savani, Yash" />
+    <meta name="DC.date" content="2026-02-19" />
+    <meta name="DC.identifier" content="https://antidistillation.com/blog/unexpected-externalities-of-distillation/" />
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Antidistillation preserves AI openness, originality, and safety.",
+      "alternativeHeadline": "Some unexpected negative externalities of distillation attacks",
+      "description": "Distillation attacks are making AI less safe, less original, and less open. The issue is deeper than just stealing IP. So, we proposed antidistillation to disincentivize large-scale distillation attacks.",
+      "image": "https://antidistillation.com/assets/meta3.jpg",
+      "url": "https://antidistillation.com/blog/unexpected-externalities-of-distillation/",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://antidistillation.com/blog/unexpected-externalities-of-distillation/"
+      },
+      "datePublished": "2026-02-19",
+      "dateModified": "2026-02-23",
+      "author": [
+        {
+          "@type": "Person",
+          "name": "Asher Trockman",
+          "url": "https://ashertrockman.com"
+        },
+        {
+          "@type": "Person",
+          "name": "Yash Savani",
+          "url": "https://yashsavani.com"
+        }
+      ],
+      "publisher": {
+        "@type": "Organization",
+        "name": "Antidistillation",
+        "url": "https://antidistillation.com/"
+      },
+      "keywords": [
+        "antidistillation",
+        "distillation attacks",
+        "antidistillation sampling",
+        "antidistillation fingerprinting",
+        "AI safety",
+        "AI monoculture",
+        "reasoning traces"
+      ]
+    }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
     <!-- Google tag (gtag.js) -->
@@ -235,7 +315,7 @@
 
         .figure .figure-border img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: contain;
             border: none;
         }
@@ -302,6 +382,58 @@
             color: #555;
         }
 
+        .citation-box {
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .citation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .citation-label {
+            font-size: 0.75rem;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0;
+        }
+
+        .copy-btn {
+            font-family: 'Hack', monospace;
+            font-size: 0.55rem;
+            padding: 0.25rem 0.6rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            background: #fafafa;
+            color: #555;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .copy-btn:hover {
+            border-color: #4D6BFE;
+            color: #000;
+        }
+
+        .bibtex {
+            font-family: 'Hack', monospace;
+            font-size: 0.58rem;
+            line-height: 1.5;
+            background: #f8f9fa;
+            border: 1px solid #eee;
+            border-left: 2px solid #4D6BFE;
+            border-radius: 3px;
+            padding: 0.85rem 1rem;
+            overflow-x: auto;
+            color: #222;
+            margin: 0;
+            white-space: pre;
+        }
+
         @media (max-width: 600px) {
             html {
                 font-size: 20px;
@@ -317,18 +449,20 @@
     </style>
 </head>
 <body>
-    <canvas id="noise-bg"></canvas>
-    <div class="container">
-
+    <canvas id="noise-bg" aria-hidden="true"></canvas>
+    <main class="container">
+      <article>
         <div class="accent-line"></div>
 
-        <h1>Antidistillation preserves<br>AI openness, originality, and safety.</h1>
-        <p class="date">February 19, 2026 (Updated: Feb. 23)</p>
+        <header>
+            <h1>Antidistillation preserves<br>AI openness, originality, and safety.</h1>
+            <p class="date"><time datetime="2026-02-19">February 19, 2026</time> (Updated: <time datetime="2026-02-23">Feb. 23</time>)</p>
 
-        <p class="byline">Equal contribution by <a href="https://ashertrockman.com">Asher Trockman</a> and <a href="https://yashsavani.com">Yash Savani</a></p>
-         <p class="disclaimer" style="margin-bottom: 0.2rem; margin-top: 1rem; color: #000; font-style: normal;">Inquiries: <a href="mailto:authors@antidistillation.com">authors@antidistillation.com</a></p>
+            <p class="byline">Equal contribution by <a href="https://ashertrockman.com" rel="author">Asher Trockman</a> and <a href="https://yashsavani.com" rel="author">Yash Savani</a></p>
+            <p class="disclaimer" style="margin-bottom: 0.2rem; margin-top: 1rem; color: #000; font-style: normal;">Inquiries: <a href="mailto:authors@antidistillation.com">authors@antidistillation.com</a></p>
 
-        <p class="disclaimer">The authors write in their personal capacity. This post does not reflect the opinions of their employers.</p>
+            <p class="disclaimer">The authors write in their personal capacity. This post does not reflect the opinions of their employers.</p>
+        </header>
 
 
         <hr>
@@ -349,12 +483,12 @@
             <p><strong>Distillation</strong> is when someone trains a new model, which we call the <em>student</em>, to imitate the behavior of an existing, more capable model, called the <em>teacher</em>. Traditionally, this has been done with <em>full access</em> to both models (<a href="https://arxiv.org/abs/1503.02531">Hinton et al., 2015</a>)&mdash;for example, to compress a large model into a smaller, faster one for deployment. Distillation has been widely (and productively) used to create efficient models for edge devices, to specialize general-purpose models, and to make already capable AI faster and more accessible (<a href="https://arxiv.org/abs/2403.08295">Gemma Team, 2024</a>, <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v2_5_report.pdf">Gemini Team, 2025</a>, <a href="https://openai.com/index/api-model-distillation/">GPT-4o Mini, 2024</a>).</p>
             <p>More recently, distillation has also been performed using the APIs for popular language models like ChatGPT and Claude. In such cases, the distiller queries a teacher model&rsquo;s API at scale with a variety of prompts designed to extract the teacher&rsquo;s capabilities. The distiller then uses those text outputs as training data, without access to the teacher's weights or architecture.<sup>1</sup> This can be a lossy process: the student learns to approximate the teacher's outputs, but doesn't necessarily reproduce the full range of the teacher's capabilities or the internal representations that produce them.</p>
 
-            <div class="figure">
+            <figure class="figure">
                 <div class="figure-border">
-                    <img src="/assets/figure.png" alt="Fig. 1: Antidistillation sampling effect on student model performance">
+                    <img src="/assets/figure.png" width="2296" height="1290" loading="lazy" decoding="async" alt="Fig. 1: Antidistillation sampling effect on student model performance">
                 </div>
-                <p class="figure-caption">Fig. 1: Distilling student models with reasoning traces generated by a teacher model improves their performance on a target task, like math reasoning (GSM8K). But if the teacher&rsquo;s traces are generated via <em>antidistillation sampling</em> instead, the student&rsquo;s performance <em>decreases</em>. Teacher accuracy is better-spared by our newest iteration of the algorithm.</p>
-            </div>
+                <figcaption class="figure-caption">Fig. 1: Distilling student models with reasoning traces generated by a teacher model improves their performance on a target task, like math reasoning (GSM8K). But if the teacher&rsquo;s traces are generated via <em>antidistillation sampling</em> instead, the student&rsquo;s performance <em>decreases</em>. Teacher accuracy is better-spared by our newest iteration of the algorithm.</figcaption>
+            </figure>
 
             <p>It may not be obvious at first, but the benefits of distillation can also be used for adversarial purposes. A <strong>distillation attack</strong> is a distillation campaign specifically designed to extract capabilities from a language model in order to compete on LLM R&amp;D and serving costs, undercutting the original provider with a cheaper imitation <em>built from their own outputs</em>. According to the <a href="https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0">OpenAI memo</a>, model outputs for distillation have been extracted using obfuscated third-party routers and programmatic methods to harvest model outputs at scale. <a href="https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use">Google's GTIG report</a> independently corroborates this, documenting over 100,000 prompts in a single reasoning-trace extraction campaign and noting that distillation techniques have evolved into multi-stage pipelines blending synthetic data generation, large-scale data cleaning, and reinforcement-learning-style preference optimization. <a href="https://www.anthropic.com/news/detecting-and-preventing-distillation-attacks">Anthropic&rsquo;s report</a> described even larger-scale attacks, with 1-10 million queries per campaign.</p>
             <p><strong>Distillation defenses</strong> are algorithms designed to detect, prevent, or disincentivize distillation attacks. We call our line of work on distillation defenses <strong>antidistillation</strong>. Some of our methods make it harder for student models to learn from a teacher's outputs without affecting the experience for human users; others embed detectable signatures that survive the distillation process, making it possible to prove that distillation occurred.</p>
@@ -370,12 +504,12 @@
             <p>Distillation short-circuits this. Rather than doing the hard work of building models that reflect local contexts or even just different methodologies, labs can simply distill a frontier teacher and ship the student. The result is an AI ecosystem that increasingly looks like an echo chamber, with every model downstream of the same few large players. All flaws propagate downstream and proliferate unchecked: jailbreaks, biases, hallucinations, flawed reasoning. We would rather see a variety of models made from scratch with independent methodology, so that these failure modes are smoothed out on average across the whole ecosystem.</p>
             <p>While distilled models may be further finetuned to specific use cases, the distilled &ldquo;core&rdquo; is still latent in the model, and biases or reasoning strategies from that stage of training could resurface any time&mdash;&ldquo;un-learning&rdquo; is a notable difficulty in the space of language models, with extensive literature that has not successfully remediated the problem (see, for example, <a href="https://arxiv.org/pdf/2410.16454">Zhang et al. 2025</a>; <a href="https://arxiv.org/pdf/2506.00688">Feng et al. 2025</a>).</p>
 
-            <div class="figure">
+            <figure class="figure">
                 <div class="figure-border">
-                    <img src="../../assets/figure2.png" style="max-width: 450px;" alt="Fig. 2: Unexpected behavior is easily trained into models.">
+                    <img src="/assets/figure2.png" width="1558" height="972" loading="lazy" decoding="async" style="max-width: 450px;" alt="Fig. 2: Unexpected behavior is easily trained into models.">
                 </div>
-                <p class="figure-caption">Fig. 2: Unexpected behavior is easily trained into models, and is then very hard to remove, even with extensive engineering effort. This example, which has been widely demonstrated online recently, likely stems from accidental data contamination. The same phenomenon is why distillation attacks can lead to monoculture and security risks. (Translation: What model are you?).</p>
-            </div>
+                <figcaption class="figure-caption">Fig. 2: Unexpected behavior is easily trained into models, and is then very hard to remove, even with extensive engineering effort. This example, which has been widely demonstrated online recently, likely stems from accidental data contamination. The same phenomenon is why distillation attacks can lead to monoculture and security risks. (Translation: What model are you?).</figcaption>
+            </figure>
             <h3>Monoculture is a security risk.</h3>
             <p>The shift towards an AI monoculture is a systemic security risk<strong>.</strong> If the entire ecosystem is downstream of the same handful of teachers, a single jailbreak or safety failure could compromise the entire ecosystem in one blow. This could be especially critical given the recent rise of personal, agentic AI.</p>
             <p>For an imperfect analogy of the risks of AI monoculture, consider the risks of software monoculture in cybersecurity more generally: When critical infrastructure all runs on the same codebase, a single vulnerability becomes a point of massive systemic failure (<a href="https://www.lawfaremedia.org/article/cyber-monoculture-risk">Rosenzweig, 2023</a>)&mdash;like the CrowdStrike outage in 2024. As frontier AI capabilities are increasingly seen as a matter of national security (<a href="https://situational-awareness.ai/">Aschenbrenner, 2024</a>), we should consider that concentrating the entire model ecosystem downstream of a small number of teachers could create the same flavor of fragility.</p>
@@ -433,7 +567,7 @@
         <div class="section">
             <h3>What <span class="gradient-text">antidistillation</span> is and isn't.</h3>
             <p>A common argument we&rsquo;ve seen in favor of distillation attacks is that frontier labs trained their models on (possibly copyrighted) data from the public web, and therefore should consider the outputs of their models to also be public data. But we think this actually sidesteps the main issues we&rsquo;ve raised in this article. Essentially, we argue that the capabilities extracted by distillation attacks are created <em>ex nihilo</em> from investments in R&amp;D and GPU hours. Further, teacher models trained on open internet data are already widely accessible and, in many cases, fully open source. That data is straightforward to scrape&mdash;there's no reason to launch a distillation attack to get an edge from it. And even putting these issues aside, distillation attacks still result in monoculture, safety debt, and skew incentive structures around innovation.</p>
-            <p>The main issue driving these debates is that language models are increasingly viewed as <em>assets</em>, which are backed by the enormous cost of the GPU-hours that turn a base model into a world-class one and, and to a lesser extent, data generated or commissioned by AI labs themselves. The leap from a decent pretrained "base" model to today's frontier (teacher) models like o3 or Opus 4.6 didn't come from better web scraping. It came from massive, private investments in specialized training data, human feedback, chain-of-thought training, and other sophisticated post-training methods. Training a frontier model costs on the order of hundreds of millions of dollars. GPT-4 alone is estimated to have cost around $79 million in compute, with total R&amp;D costs reaching into the hundreds of millions (<a href="https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models">Epoch AI, 2025</a>; <a href="https://aiindex.stanford.edu/report/">Stanford AI Index, 2025</a>). Anthropic's CEO has stated that training the next generation of Claude would cost around a <a href="https://www.businessinsider.com/anthropic-ceo-cost-10-billion-train-ai-years-language-model-2024-4">billion dollars</a> (two years ago).</p>
+            <p>The main issue driving these debates is that language models are increasingly viewed as <em>assets</em>, which are backed by the enormous cost of the GPU-hours that turn a base model into a world-class one and, to a lesser extent, data generated or commissioned by AI labs themselves. The leap from a decent pretrained "base" model to today's frontier (teacher) models like o3 or Opus 4.6 didn't come from better web scraping. It came from massive, private investments in specialized training data, human feedback, chain-of-thought training, and other sophisticated post-training methods. Training a frontier model costs on the order of hundreds of millions of dollars. GPT-4 alone is estimated to have cost around $79 million in compute, with total R&amp;D costs reaching into the hundreds of millions (<a href="https://epoch.ai/blog/how-much-does-it-cost-to-train-frontier-ai-models">Epoch AI, 2025</a>; <a href="https://aiindex.stanford.edu/report/">Stanford AI Index, 2025</a>). Anthropic's CEO has stated that training the next generation of Claude would cost around a <a href="https://www.businessinsider.com/anthropic-ceo-cost-10-billion-train-ai-years-language-model-2024-4">billion dollars</a> (two years ago).</p>
             <p>Whether labs are justified in using publicly scraped internet data to train their LLMs and then limiting access to their models is left as a question to the reader. But it&rsquo;s clear to us that the desire to protect investments in these LLMs, as well as the unexpected externalities of distillation attacks that we have discussed in this article, will affect the AI ecosystem more broadly. Consequently, we propose antidistillation as a middleground that allows companies to protect their AI assets while keeping them as open and transparent to the public as possible. <strong>And this protection isn't exclusive to big labs</strong>. Any entity, large or small, can deploy antidistillation to protect its own compute investments or specially-curated, domain-specific data. If you've spent months fine-tuning a model for medical diagnosis or legal reasoning, antidistillation helps to disincentivize a competitor from easily copying your work by querying your API. In the future, this could even include protecting the skills you have curated for your personal LLM agent, or fingerprinting your own content.</p>
         </div>
 
@@ -454,18 +588,33 @@
         </div>
 
            <div class="project-links">
-                <a href="https://antidistillation.com">← Go to <span class="gradient-text">antidistillation sampling</span> project site</a>
+                <a href="/">← Go to <span class="gradient-text">antidistillation sampling</span> project site</a>
                 <!-- <a href="https://antidistillation.com/fingerprinting">Go to <span class="gradient-text">antidistillation fingerprinting</span> project site →</a> -->
             </div>
 
-        <div class="section">
+        <section class="section" aria-label="Acknowledgments">
             <p class="acknowledgments-label">Acknowledgments</p>
             <p>We appreciate feedback on initial drafts of this article from Nicholas Roberts, David Gray Widder, Praneeth Kacham, Lucio Dery, Rijnard van Tonder, Jaume de Dios Pont, Sadhika Malladi, Alexander Robey, Zico Kolter, Bogdan Vasilescu, Ethan Willoner, Yixuan Xu, Josh Sand, and Swaminathan Gurumurthy. This article should not be construed to represent their own views, nor those of their institutions. Any errors are solely those of the authors.</p>
-        </div>
+        </section>
+
+        <section class="citation-box" id="citation" aria-label="Citation">
+            <div class="citation-header">
+                <p class="citation-label">Cite this post</p>
+                <button type="button" class="copy-btn" id="copy-bibtex">Copy BibTeX</button>
+            </div>
+            <pre class="bibtex" id="bibtex-code">@misc{trockman2026antidistillation,
+  title        = {Antidistillation preserves AI openness, originality, and safety},
+  author       = {Trockman, Asher and Savani, Yash},
+  year         = {2026},
+  month        = {February},
+  howpublished = {Antidistillation Blog},
+  url          = {https://antidistillation.com/blog/unexpected-externalities-of-distillation/}
+}</pre>
+        </section>
 
         <hr>
 
-        <div class="footer">
+        <footer class="footer">
             <p class="references-label">References</p>
             <div class="references">
      <p>"Updated Stakes for American-Led, Democratic AI." OpenAI. February 12, 2026. <a href="https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0">https://assets.bwbx.io/documents/users/iqjWHBFdfxIU/rRmql_jJcxb4/v0</a></p>
@@ -509,7 +658,7 @@
 
 <p>"CoT May Be Highly Informative Despite 'Unfaithfulness'." METR. August 8, 2025. <a href="https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/">https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/</a></p>
 
-<p>"Early work on monitorability evaluations." Megan Kinniment, Seraphina Nix, Thomas Broadley, and Neev Parikh. January 22, 2026. <a href="https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/">https://metr.org/blog/2025-08-08-cot-may-be-highly-informative-despite-unfaithfulness/</a></p>
+<p>"Early work on monitorability evaluations." Megan Kinniment, Seraphina Nix, Thomas Broadley, and Neev Parikh. January 22, 2026. <a href="https://metr.org/blog/2026-01-19-early-work-on-monitorability-evaluations">https://metr.org/blog/2026-01-19-early-work-on-monitorability-evaluations</a></p>
 
 <p>"Olmo: Our fully open language model and complete model flow." AllenAI. N/A. <a href="https://allenai.org/olmo">https://allenai.org/olmo</a></p>
 
@@ -551,40 +700,79 @@ Jason Bolton, Siddharth Karamcheti, Suhas Kotha, Tony Lee, Nelson Liu, Joel Nikl
             </div>
 
  
-        </div>
-    </div>
+        </footer>
+      </article>
+    </main>
 
- <script>
-        function generateNoise() {
-            const canvas = document.getElementById('noise-bg');
-            const ctx = canvas.getContext('2d');
-
-            const w = window.innerWidth;
-            const h = 420;
-            const grain = 3;
-
-            canvas.width = Math.ceil(w / grain);
-            canvas.height = Math.ceil(h / grain);
-            canvas.style.height = h + 'px';
-            canvas.style.imageRendering = 'pixelated';
-
-            const imageData = ctx.createImageData(canvas.width, canvas.height);
-            const data = imageData.data;
-
-            for (let i = 0; i < data.length; i += 4) {
-                const v = Math.floor(200 + Math.random() * 55);
-                data[i] = v;
-                data[i + 1] = v;
-                data[i + 2] = v;
-                data[i + 3] = 255;
+    <script>
+        (function () {
+            const copyBtn = document.getElementById('copy-bibtex');
+            const bibtexEl = document.getElementById('bibtex-code');
+            if (copyBtn && bibtexEl) {
+                copyBtn.addEventListener('click', function () {
+                    const text = bibtexEl.textContent;
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(text).then(function () {
+                            copyBtn.textContent = 'Copied!';
+                            setTimeout(function () { copyBtn.textContent = 'Copy BibTeX'; }, 1800);
+                        });
+                    }
+                });
             }
 
-            ctx.putImageData(imageData, 0, 0);
-        }
+            const canvas = document.getElementById('noise-bg');
+            const ctx = canvas.getContext('2d');
+            const h = 420;
+            const grain = 3;
+            const FRAME_COUNT = 4;
+            const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let frames = [];
+            let frameIdx = 0;
+            let lastTime = 0;
+            let resizeTimer = null;
 
-        generateNoise();
-        setInterval(generateNoise, 50);
-        window.addEventListener('resize', generateNoise);
+            function buildFrames() {
+                const w = window.innerWidth;
+                canvas.width = Math.ceil(w / grain);
+                canvas.height = Math.ceil(h / grain);
+                canvas.style.height = h + 'px';
+                canvas.style.imageRendering = 'pixelated';
+
+                const count = reduceMotion ? 1 : FRAME_COUNT;
+                frames = [];
+                for (let f = 0; f < count; f++) {
+                    const img = ctx.createImageData(canvas.width, canvas.height);
+                    const data = img.data;
+                    for (let i = 0; i < data.length; i += 4) {
+                        const v = Math.floor(200 + Math.random() * 55);
+                        data[i] = v;
+                        data[i + 1] = v;
+                        data[i + 2] = v;
+                        data[i + 3] = 255;
+                    }
+                    frames.push(img);
+                }
+                ctx.putImageData(frames[0], 0, 0);
+            }
+
+            function tick(ts) {
+                if (!document.hidden && ts - lastTime >= 80 && frames.length > 1) {
+                    lastTime = ts;
+                    frameIdx = (frameIdx + 1) % frames.length;
+                    ctx.putImageData(frames[frameIdx], 0, 0);
+                }
+                requestAnimationFrame(tick);
+            }
+
+            buildFrames();
+            if (!reduceMotion) {
+                requestAnimationFrame(tick);
+            }
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(buildFrames, 150);
+            });
+        })();
     </script>
 </body>
 </html>

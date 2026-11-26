@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/assets/favicon.png">
+    <title>Antidistillation Sampling — Reasoning Trace Comparisons</title>
+    <meta name="description" content="Side-by-side comparison of standard temperature sampling and antidistillation sampling reasoning traces across ~80%, ~70%, and ~30% teacher accuracy regimes.">
+    <link rel="canonical" href="https://antidistillation.com/traces/">
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Antidistillation">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Antidistillation Sampling — Reasoning Trace Comparisons">
+    <meta property="og:description" content="Side-by-side comparison of temperature sampling vs. antidistillation sampling reasoning traces.">
+    <meta property="og:url" content="https://antidistillation.com/traces/">
+    <meta property="og:image" content="https://antidistillation.com/assets/og-home.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="674">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Antidistillation Sampling — Reasoning Trace Comparisons">
+    <meta name="twitter:description" content="Side-by-side comparison of temperature sampling vs. antidistillation sampling reasoning traces.">
+    <meta name="twitter:image" content="https://antidistillation.com/assets/og-home.jpg">
+
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8GYBV609E"></script>
     <script>
@@ -13,13 +34,37 @@
     
       gtag('config', 'G-G8GYBV609E');
     </script>
-    <title>Antidistillation Traces</title>
     <style>
         body {
             font-family: Hack, monospace;
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .page-header h1 {
+            font-size: 1.35rem;
+            margin: 0 0 6px;
+        }
+
+        .page-header p {
+            font-size: 0.8rem;
+            color: #555;
+            margin: 0;
+        }
+
+        .page-header a {
+            color: #4D6BFE;
+            text-decoration: none;
+        }
+
+        .page-header a:hover {
+            text-decoration: underline;
         }
         
         .navigation-info {
@@ -168,6 +213,7 @@
         }
         
         /* Print mode styles */
+        body.print-mode .page-header,
         body.print-mode .navigation-info,
         body.print-mode .group-selection,
         body.print-mode .nav-buttons {
@@ -176,6 +222,7 @@
         
         /* Print media query for automatic styling when printing */
         @media print {
+            .page-header,
             .navigation-info,
             .group-selection,
             .nav-buttons {
@@ -218,6 +265,11 @@
     </style>
 </head>
 <body>
+    <header class="page-header">
+        <h1>Antidistillation Sampling Traces</h1>
+        <p>Side-by-side comparison of temperature sampling vs. antidistillation sampling reasoning traces · <a href="/">← Back to paper</a></p>
+    </header>
+    <main>
     <div class="navigation-info">
         <p>Page <span id="current-page">1</span> of <span id="total-pages">5</span> | Use ← and → arrow keys to navigate</p>
     </div>
@@ -272,6 +324,7 @@
         <button id="prev-btn">← Previous</button>
         <button id="next-btn">Next →</button>
     </div>
+    </main>
 
     <div class="print-notification">
         Print mode activated. Press P again to exit print mode.
